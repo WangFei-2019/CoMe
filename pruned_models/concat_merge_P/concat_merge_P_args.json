@@ -1,0 +1,16 @@
+{
+    "method": "concat_merge_P",
+    "model_name": "/workspace/wangfei154/models/meta-llama/llama-2-7b-hf",
+    "target_layers": 16,
+    "save_path": "./pruned_models/concat_merge_P",
+    "continue_saving": false,
+    "ppl_data": [],
+    "seed": 10,
+    "calibration_dataset": "wiki2",
+    "skip_method": "bi",
+    "nsamples": 256,
+    "merge_item": 2,
+    "wo_repeat": true,
+    "granularity": 20,
+    "save_name": "llama-2-7b-hf_concat_merge_P"
+}
