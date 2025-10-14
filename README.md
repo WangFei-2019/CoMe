@@ -150,7 +150,15 @@ python main.py --help
 
 ## Cite
 
-To be open sourced
+This work has been accepted to NeurIPS 2025. If you use this code or our method in your research, please cite our paper:
+```plaintext
+@inproceedings{wang2025layer,
+    title={Layer as Puzzle Pieces: Compressing Large Language Models through Layer Concatenation},
+    author={Fei Wang and Li Shen and Liang Ding and Chao Xue and Ye Liu and Changxing Ding},
+    booktitle={The Thirty-ninth Annual Conference on Neural Information Processing Systems},
+    year={2025},
+}
+```
 
 
 
