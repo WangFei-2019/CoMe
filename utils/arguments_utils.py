@@ -11,7 +11,7 @@ def add_layerprune_args(parser: argparse.ArgumentParser):
     group.add_argument('--method', type=str, choices=list(methods_call.keys()), help="The method name ['sleb', 'mka', 'shortgpt', 'reverse', 'taylor', 'magnitude', 'laco', 'concat_merge']")
     group.add_argument("--model-name", type=str, help="A huggingface model name or a hf model path")
     group.add_argument("--target-layers", type=int, help="The final number of layers in the model")
-    group.add_argument("--save-path", type=str, default=None, help="The path to save pruning informatiom ")
+    group.add_argument("--save-path", type=str, default=None, help="The path to save pruning information")
     group.add_argument("--continue-saving", action='store_true', help="Save each model generated at every pruning step")
     group.add_argument("--ppl-data", nargs='+', choices=["c4", "wiki2"], default=[], help="Test in the end")
     group.add_argument("--seed", type=int, default=10, help="Random seed")
@@ -122,8 +122,11 @@ def get_args():
     parser = argparse.ArgumentParser(description='Layer Pruning')
     parser = add_layerprune_args(parser)
     args, unknown = parser.parse_known_args()
-    parser = globals()[f"add_{args.method}_args"](parser)
-    # parser = ADD_METHODS_ARGS[args.method](parser)
+    if args.method in ADD_METHODS_ARGS:
+        parser = ADD_METHODS_ARGS[args.method](parser)
+    else:
+        raise ValueError(f"Unknown method: {args.method}")
+    # parser = globals()[f"add_{args.method}_args"](parser)
     args, unknown = parser.parse_known_args()
 
     if hasattr(args, "heuristic"):
