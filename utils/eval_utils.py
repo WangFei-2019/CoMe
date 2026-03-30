@@ -15,8 +15,8 @@ from utils.data_utils import *
 def load_and_eval_ppl(model, device=None, dataset='wiki2', testloader=None, tokenizer=None):
     # if device is None:
     #     device = model.device
-    # logging.info status
-    logging.info(f"Evaluating on {dataset}")
+    # print status
+    print(f"Evaluating on {dataset}")
 
     # Get the test loader
     if testloader is None:
@@ -26,12 +26,12 @@ def load_and_eval_ppl(model, device=None, dataset='wiki2', testloader=None, toke
         _, testloader = get_loaders(
             dataset, seed=0, seqlen=model.seqlen, tokenizer=tokenizer 
         )
-        logging.info(f"Dataset Loaded.")
+        print(f"Dataset Loaded.")
 
     # Evaluate ppl in no grad context to avoid updating the model
     with torch.no_grad():
         ppl_test = eval_ppl(model, testloader, 1, device, desc=dataset)
-    logging.info(f"{dataset} PPL = {ppl_test}")
+    print(f"{dataset} PPL = {ppl_test}")
     return ppl_test 
 
 @torch.no_grad()
@@ -53,7 +53,7 @@ def eval_ppl(model, testenc, bs=1, device=None, desc=None):
 
     # List to store negative log likelihoods
     nlls = []
-    logging.info(f"nsamples {nsamples}")
+    print(f"nsamples {nsamples}")
 
     # Loop through each batch
     with tqdm(range(0,nsamples,bs), desc=f"{desc} Perplexity") as progress_bar:

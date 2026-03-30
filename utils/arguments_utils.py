@@ -108,6 +108,21 @@ def add_concat_merge_P_args(parser: argparse.ArgumentParser):
     group.add_argument("--granularity", type=int, default=20, help="Search granularity")
     return parser
 
+
+def add_procrustes_args(parser: argparse.ArgumentParser):
+    group = parser.add_argument_group('procrustes', 'procrustes configurations')
+    group.add_argument("--calibration-dataset", choices=["c4", "wiki2", "pg19", "bookcorpus", "alpaca", "mmlu"], default="wiki2", help="The calibration dataset")
+    group.add_argument("--nsamples", type=int, default=128, help="The number of samples in the calibration dataset used")
+    return parser
+
+
+def add_fdd_ridge_args(parser: argparse.ArgumentParser):
+    group = parser.add_argument_group('fdd_ridge', 'fdd_ridge configurations')
+    group.add_argument("--calibration-dataset", choices=["c4", "wiki2", "pg19", "bookcorpus", "alpaca", "mmlu"], default="wiki2", help="The calibration dataset")
+    group.add_argument("--nsamples", type=int, default=128, help="The number of samples in the calibration dataset used")
+    return parser
+
+
 ADD_METHODS_ARGS = {"sleb": add_sleb_args,
                     "mka": add_mka_args,
                     "shortgpt": add_shortgpt_args,
@@ -116,6 +131,8 @@ ADD_METHODS_ARGS = {"sleb": add_sleb_args,
                     "taylor": add_taylor_args,
                     "concat_merge": add_concat_merge_args,
                     "concat_merge_P": add_concat_merge_P_args,
+                    "procrustes": add_procrustes_args,
+                    "fdd_ridge": add_fdd_ridge_args
                     }
 
 def get_args():
