@@ -181,23 +181,6 @@ def main_func(args, modelhander):
     # 预先获取存数据的目录
     save_dir = getattr(args, 'save_path', f"fdd_progressive_{args.target_layers}L")
 
-    num_calib = min(nsamples, 32)
-    damp = TUNE_CONFIG["damping_factor"]
-
-    # =====================================================================
-    # 🌟 [全局真理锚点] 提前计算并缓存最原始模型的 Token 难度权重
-    # 这保证了无论后续模型被剪得多烂，评判“词难度”的标准永远不会退化！
-    # =====================================================================
-    logging.info("🌟 提前計算並緩存 100% 原始模型的 Token 置信度權重...")
-    global_golden_weights = []
-    modelhander.model.eval()
-    for i in tqdm(range(num_calib), desc="預計算 Golden Weights"):
-        inputs = testenc[:, (i * seqlen):((i+1) * seqlen)].to(compute_device)
-        outputs = modelhander.model(inputs, use_cache=False)
-        weights = compute_token_difficulty_by_prob(outputs.logits, inputs)
-        global_golden_weights.append(weights.detach().cpu())
-        del outputs; torch.cuda.empty_cache()
-
     iteration = 0
     while modelhander.model.config.num_hidden_layers > args.target_layers:
         iteration += 1
@@ -258,9 +241,8 @@ def main_func(args, modelhander):
                 if key != 'Token_Weights': orig_targets[key].append(hooks.data[key])
             
             # 缓存 Method 2 权重
-            # batch_weights = compute_token_difficulty_by_prob(outputs.logits, inputs)
-            # orig_targets['Token_Weights'].append(batch_weights.detach().cpu())
-            orig_targets['Token_Weights'].append(global_golden_weights[i])
+            batch_weights = compute_token_difficulty_by_prob(outputs.logits, inputs)
+            orig_targets['Token_Weights'].append(batch_weights.detach().cpu())
             hooks.clear()
 
         # 方法一：L2 Norm 加权
