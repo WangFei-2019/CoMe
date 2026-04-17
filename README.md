@@ -3,7 +3,7 @@
 [![NeurIPS 2025](https://img.shields.io/badge/NeurIPS-2025-blue.svg)](https://openreview.net/forum?id=enhFXzKii4)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-Official Implementation of the paper "[**Layer as Puzzle Pieces: Compressing Large Language Models through Layer Concatenation**](https://github.com/WangFei-2019/CoMe)" (NeurIPS 2025).
+Official Implementation of the paper "[**Layer as Puzzle Pieces: Compressing Large Language Models through Layer Concatenation**](https://arxiv.org/abs/2510.15304)" (NeurIPS 2025).
 
 ![Overview](images/overview.png)
 
